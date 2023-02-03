@@ -1,0 +1,34 @@
+version: "2.2"
+services:
+  nginx:
+    build: ./docker-compose.yml
+    image: nginx
+    ports:
+    - "81:80"
+    volumes:
+    - nginxvolume:/var/www/html
+    networks:
+    - my-network
+    
+  mysql:
+    image: mysql:latest
+    restart: always
+    ports:
+    - "3306:3306"
+    volumes:
+    - mysqlvolume:/data/db
+    networks:
+    - my-network
+    environment:
+    - MYSQL_ROOT_PASSWORD="123"
+    - MYSQL_DATABASE="db"
+    - MYSQL_USER="root" 
+    networks:
+    - my-network
+  
+volumes:
+  nginxvolume:
+  mysqlvolume:
+
+networks:
+  my-network:
